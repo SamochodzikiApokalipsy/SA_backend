@@ -1,14 +1,15 @@
 package pl.hackathon.hackyeah.samochodziki.database;
 
 import javax.persistence.*;
+import java.util.Set;
 
 @Entity
 @Table(name="car")
 public class Car {
 
     @Id
-    @SequenceGenerator(name = "idSequenceGenerator", sequenceName = "car_id_car_seq", allocationSize = 1)
-    @GeneratedValue(generator = "idSequenceGenerator")
+    @SequenceGenerator(name = "carIdSequenceGenerator", sequenceName = "car_id_car_seq", allocationSize = 1)
+    @GeneratedValue(generator = "carIdSequenceGenerator")
     @Column(name = "id_car", nullable = false)
     private long carId;
 
@@ -19,17 +20,28 @@ public class Car {
     @Column(name = "points", nullable = false)
     private int points;
 
-    @Column(name = "phrase", nullable = false)
-    private String phrase;
+    //TODO: does it needs adnotations
+//    private Set<Phrase> phrases;
 
     public Car() {
     }
 
-    public Car(long carId, int points, String phrase) {
+    public Car(long carId, int points/*, Set<Phrase> phrases*/) {
         this.carId = carId;
         this.points = points;
-        this.phrase = phrase;
+//        this.phrases = phrases;
     }
+
+//    @ManyToMany(cascade = CascadeType.ALL)
+//    @JoinTable(name = "phrase_car", joinColumns = @JoinColumn(name = "id_car", referencedColumnName = "id_car"),
+//            inverseJoinColumns = @JoinColumn(name = "id_phrase", referencedColumnName = "id_phrase"))
+//    public Set<Phrase> getPhrases() {
+//        return phrases;
+//    }
+//
+//    public void setPhrases(Set<Phrase> phrases) {
+//        this.phrases = phrases;
+//    }
 
     public long getCarId() {
         return carId;
@@ -45,14 +57,6 @@ public class Car {
 
     public void setPoints(int points) {
         this.points = points;
-    }
-
-    public String getPhrase() {
-        return phrase;
-    }
-
-    public void setPhrase(String phrase) {
-        this.phrase = phrase;
     }
 
     public String getName() {
