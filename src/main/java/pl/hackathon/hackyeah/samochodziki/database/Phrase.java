@@ -1,6 +1,7 @@
 package pl.hackathon.hackyeah.samochodziki.database;
 
 import javax.persistence.*;
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
@@ -18,7 +19,13 @@ public class Phrase {
     @Column(name = "phrase", nullable = false)
     private String phrase;
 
-//    private Set<Car> cars;
+    @ManyToMany(fetch = FetchType.LAZY,
+            cascade = {
+                    CascadeType.PERSIST,
+                    CascadeType.MERGE
+            },
+            mappedBy = "phrases")
+    private Set<Car> cars = new HashSet<>();
 
     @OneToMany(cascade = CascadeType.ALL,
             mappedBy = "phrase", orphanRemoval = true)
@@ -27,18 +34,32 @@ public class Phrase {
     public Phrase() {
     }
 
-    public Phrase(long phraseId, String phrase/*, Set<Car> cars*/, List<News> news) {
+    public Phrase(long phraseId, String phrase, List<News> news) {
         this.phraseId = phraseId;
         this.phrase = phrase;
-//        this.cars = cars;
         this.news = news;
     }
 
-//    @ManyToMany(mappedBy = "phrases")
+    public Phrase(long phraseId, String phrase, Set<Car> cars, List<News> news) {
+        this.phraseId = phraseId;
+        this.phrase = phrase;
+        this.cars = cars;
+        this.news = news;
+    }
+
+    public Set<Car> getCars() {
+        return cars;
+    }
+
+    public void setCars(Set<Car> cars) {
+        this.cars = cars;
+    }
+
+    //    @ManyToMany(mappedBy = "phrases")
 //    public Set<Car> getCars() {
 //        return cars;
 //    }
-
+//
 //    public void setCars(Set<Car> cars) {
 //        this.cars = cars;
 //    }

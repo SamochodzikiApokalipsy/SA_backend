@@ -1,6 +1,7 @@
 package pl.hackathon.hackyeah.samochodziki.database;
 
 import javax.persistence.*;
+import java.util.HashSet;
 import java.util.Set;
 
 @Entity
@@ -21,17 +22,41 @@ public class Car {
     private int points;
 
     //TODO: does it needs adnotations
-//    private Set<Phrase> phrases;
+    @ManyToMany(fetch = FetchType.LAZY,
+            cascade = {
+                    CascadeType.PERSIST,
+                    CascadeType.MERGE
+            })
+    @JoinTable(name = "phrase_car",
+            joinColumns = { @JoinColumn(name = "id_phrase") },
+            inverseJoinColumns = { @JoinColumn(name = "id_car") })
+    private Set<Phrase> phrases = new HashSet<>();
 
     public Car() {
     }
 
-    public Car(long carId, int points/*, Set<Phrase> phrases*/) {
+    //TODO: according to tut it's necessary as well as in phrases
+    public Car(long carId, String name, int points) {
         this.carId = carId;
+        this.name = name;
         this.points = points;
-//        this.phrases = phrases;
     }
 
+    public Car(long carId, int points, Set<Phrase> phrases) {
+        this.carId = carId;
+        this.points = points;
+        this.phrases = phrases;
+    }
+
+    public Set<Phrase> getPhrases() {
+        return phrases;
+    }
+
+    public void setPhrases(Set<Phrase> phrases) {
+        this.phrases = phrases;
+    }
+
+    //
 //    @ManyToMany(cascade = CascadeType.ALL)
 //    @JoinTable(name = "phrase_car", joinColumns = @JoinColumn(name = "id_car", referencedColumnName = "id_car"),
 //            inverseJoinColumns = @JoinColumn(name = "id_phrase", referencedColumnName = "id_phrase"))
