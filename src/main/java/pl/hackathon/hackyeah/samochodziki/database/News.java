@@ -33,6 +33,12 @@ public class News {
         this.phrase = phrase;
     }
 
+    public News(int popularity, Timestamp collectedTimestamp, Phrase phrase) {
+        this.popularity = popularity;
+        this.collectedTimestamp = collectedTimestamp;
+        this.phrase = phrase;
+    }
+
     public News() {
     }
 
