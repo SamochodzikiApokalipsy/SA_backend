@@ -1,5 +1,7 @@
 package pl.hackathon.hackyeah.samochodziki.database;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.sql.Timestamp;
 
@@ -13,14 +15,15 @@ public class News {
     @Column(name = "id_news", nullable = false)
     private long newsId;
 
-    @Column(name = "phrase", nullable = false)
+    @Column(name = "popularity", nullable = false)
     private int popularity;
 
     @Column(name = "collected_Timestamp", nullable = false)
     private java.sql.Timestamp collectedTimestamp;
 
     @ManyToOne
-    @JoinColumn(name="phrase_id", nullable=false)
+    @JoinColumn(name="id_phrase", nullable=false)
+    @JsonIgnore
     private Phrase phrase;
 
     public News(long newsId, int popularity, Timestamp collectedTimestamp, Phrase phrase) {

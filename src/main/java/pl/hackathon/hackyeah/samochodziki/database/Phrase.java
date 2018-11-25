@@ -1,5 +1,7 @@
 package pl.hackathon.hackyeah.samochodziki.database;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.util.HashSet;
 import java.util.LinkedList;
@@ -14,34 +16,32 @@ public class Phrase {
     @SequenceGenerator(name = "phraseIdSequenceGenerator", sequenceName = "phrase_id_phrase_seq", allocationSize = 1)
     @GeneratedValue(generator = "phraseIdSequenceGenerator")
     @Column(name = "id_phrase", nullable = false)
-    private long phraseId;
+    private long idPhrase;
 
     @Column(name = "phrase", nullable = false)
     private String phrase;
 
-    @ManyToMany(fetch = FetchType.LAZY,
-            cascade = {
-                    CascadeType.PERSIST,
-                    CascadeType.MERGE
-            },
+    @ManyToMany(
             mappedBy = "phrases")
+    @JsonIgnore
     private Set<Car> cars = new HashSet<>();
 
     @OneToMany(cascade = CascadeType.ALL,
             mappedBy = "phrase", orphanRemoval = true)
+    @JsonIgnore
     private List<News> news = new LinkedList<>();
 
     public Phrase() {
     }
 
     public Phrase(long phraseId, String phrase, List<News> news) {
-        this.phraseId = phraseId;
+        this.idPhrase = phraseId;
         this.phrase = phrase;
         this.news = news;
     }
 
     public Phrase(long phraseId, String phrase, Set<Car> cars, List<News> news) {
-        this.phraseId = phraseId;
+        this.idPhrase = phraseId;
         this.phrase = phrase;
         this.cars = cars;
         this.news = news;
@@ -72,12 +72,12 @@ public class Phrase {
         this.news = news;
     }
 
-    public long getPhraseId() {
-        return phraseId;
+    public long getIdPhrase() {
+        return idPhrase;
     }
 
-    public void setPhraseId(long phraseId) {
-        this.phraseId = phraseId;
+    public void setIdPhrase(long idPhrase) {
+        this.idPhrase = idPhrase;
     }
 
     public String getPhrase() {

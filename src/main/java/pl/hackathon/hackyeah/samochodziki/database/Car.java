@@ -1,5 +1,7 @@
 package pl.hackathon.hackyeah.samochodziki.database;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.util.HashSet;
 import java.util.Set;
@@ -12,11 +14,10 @@ public class Car {
     @SequenceGenerator(name = "carIdSequenceGenerator", sequenceName = "car_id_car_seq", allocationSize = 1)
     @GeneratedValue(generator = "carIdSequenceGenerator")
     @Column(name = "id_car", nullable = false)
-    private long carId;
+    private long idCar;
 
     @Column(name = "name", nullable = false)
     private String name;
-
 
     @Column(name = "points", nullable = false)
     private int points;
@@ -28,8 +29,9 @@ public class Car {
                     CascadeType.MERGE
             })
     @JoinTable(name = "phrase_car",
-            joinColumns = { @JoinColumn(name = "id_phrase") },
-            inverseJoinColumns = { @JoinColumn(name = "id_car") })
+            joinColumns = { @JoinColumn(name = "id_car") },
+            inverseJoinColumns = { @JoinColumn(name = "id_phrase") })
+    @JsonIgnore
     private Set<Phrase> phrases = new HashSet<>();
 
     public Car() {
@@ -37,13 +39,13 @@ public class Car {
 
     //TODO: according to tut it's necessary as well as in phrases
     public Car(long carId, String name, int points) {
-        this.carId = carId;
+        this.idCar = carId;
         this.name = name;
         this.points = points;
     }
 
     public Car(long carId, int points, Set<Phrase> phrases) {
-        this.carId = carId;
+        this.idCar = carId;
         this.points = points;
         this.phrases = phrases;
     }
@@ -68,12 +70,12 @@ public class Car {
 //        this.phrases = phrases;
 //    }
 
-    public long getCarId() {
-        return carId;
+    public long getIdCar() {
+        return idCar;
     }
 
-    public void setCarId(long carId) {
-        this.carId = carId;
+    public void setIdCar(long idCar) {
+        this.idCar = idCar;
     }
 
     public int getPoints() {
