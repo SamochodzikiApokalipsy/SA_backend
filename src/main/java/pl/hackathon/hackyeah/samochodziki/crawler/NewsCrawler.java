@@ -14,7 +14,7 @@ import java.util.Map;
 
 public class NewsCrawler {
 
-    private final static String API_KEY = "414ea38308fc420eafee43bf6c9fd451";
+    private final static String API_KEY = "e76bebc0cf404245aafbf8b9ab3091e0";
 
     public int getNumberOfTodayMentionsOfPhrase(String text) throws Exception {
 

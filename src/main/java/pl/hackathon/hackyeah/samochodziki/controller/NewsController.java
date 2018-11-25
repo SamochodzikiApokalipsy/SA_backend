@@ -15,7 +15,7 @@ public class NewsController {
     @Autowired
     NewsService newsService;
 
-    @Scheduled(fixedRate=30000)
+    @Scheduled(fixedRate=30000 * 10)
     @GetMapping("/test")
     @ResponseStatus(value = HttpStatus.OK)
     public void updatePopularity() throws Exception {
