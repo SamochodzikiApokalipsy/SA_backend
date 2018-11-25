@@ -1,6 +1,7 @@
 package pl.hackathon.hackyeah.samochodziki.database;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.hibernate.annotations.DynamicUpdate;
 
 import javax.persistence.*;
 import java.util.HashSet;
@@ -8,6 +9,7 @@ import java.util.Set;
 
 @Entity
 @Table(name="car")
+@DynamicUpdate
 public class Car {
 
     @Id
