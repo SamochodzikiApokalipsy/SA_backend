@@ -5,10 +5,12 @@ Are you afraid of tomorrow? Don't know what next year bring? Now it's not a prob
 
 
 createdb:
-dbname: samochodziki (NOT REVELANT ON BRANCH)
+dbname: samochodziki
 user: postgres
 password: 123
 
+
+CREATE TABLE COMMANDS:
 
 
 CREATE SEQUENCE public.phrase_id_phrase_seq;
@@ -62,7 +64,7 @@ ON UPDATE NO ACTION
 NOT DEFERRABLE;
 
 
-
+EXAMPLE DATA:
 
 
 
@@ -100,22 +102,4 @@ INSERT INTO phrase_car(id_car, id_phrase) VALUES
 (4, 11),
 (4, 12),
 (4, 13);
-
-INSERT INTO news(id_phrase, popularity, collected_timestamp) VALUES
-(1, 5, '2018-11-25 19:10:25-07'),
-(2, 15, '2018-11-25 19:12:25-07'),
-(3, 22, '2018-11-25 18:12:25-07'),
-(4, 125, '2018-11-25 16:15:25-07'),
-(5, 5, '2018-11-25 19:13:25-07'),
-(6, 15, '2018-11-25 19:12:26-07'),
-(7, 21, '2018-11-25 19:18:25-07'),
-(8, 17, '2018-11-25 20:12:25-07'),
-(9, 3, '2018-11-25 19:12:25-07'),
-(10, 45, '2018-11-25 23:32:25-07'),
-(11, 15, '2018-11-25 21:12:25-07'),
-(12, 15, '2018-11-25 21:12:25-07'),
-(13, 15, '2018-11-25 21:12:25-07');
-
-
-
 
