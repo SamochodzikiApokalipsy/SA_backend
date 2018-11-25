@@ -1,42 +1,81 @@
 package pl.hackathon.hackyeah.samochodziki.database;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Table(name="car")
 public class Car {
 
     @Id
-    @SequenceGenerator(name = "idSequenceGenerator", sequenceName = "car_id_car_seq", allocationSize = 1)
-    @GeneratedValue(generator = "idSequenceGenerator")
+    @SequenceGenerator(name = "carIdSequenceGenerator", sequenceName = "car_id_car_seq", allocationSize = 1)
+    @GeneratedValue(generator = "carIdSequenceGenerator")
     @Column(name = "id_car", nullable = false)
-    private long carId;
+    private long idCar;
 
     @Column(name = "name", nullable = false)
     private String name;
 
-
     @Column(name = "points", nullable = false)
     private int points;
 
-    @Column(name = "phrase", nullable = false)
-    private String phrase;
+    //TODO: does it needs adnotations
+    @ManyToMany(fetch = FetchType.LAZY,
+            cascade = {
+                    CascadeType.PERSIST,
+                    CascadeType.MERGE
+            })
+    @JoinTable(name = "phrase_car",
+            joinColumns = { @JoinColumn(name = "id_car") },
+            inverseJoinColumns = { @JoinColumn(name = "id_phrase") })
+    @JsonIgnore
+    private Set<Phrase> phrases = new HashSet<>();
 
     public Car() {
     }
 
-    public Car(long carId, int points, String phrase) {
-        this.carId = carId;
+    //TODO: according to tut it's necessary as well as in phrases
+    public Car(long carId, String name, int points) {
+        this.idCar = carId;
+        this.name = name;
         this.points = points;
-        this.phrase = phrase;
     }
 
-    public long getCarId() {
-        return carId;
+    public Car(long carId, int points, Set<Phrase> phrases) {
+        this.idCar = carId;
+        this.points = points;
+        this.phrases = phrases;
     }
 
-    public void setCarId(long carId) {
-        this.carId = carId;
+    public Set<Phrase> getPhrases() {
+        return phrases;
+    }
+
+    public void setPhrases(Set<Phrase> phrases) {
+        this.phrases = phrases;
+    }
+
+    //
+//    @ManyToMany(cascade = CascadeType.ALL)
+//    @JoinTable(name = "phrase_car", joinColumns = @JoinColumn(name = "id_car", referencedColumnName = "id_car"),
+//            inverseJoinColumns = @JoinColumn(name = "id_phrase", referencedColumnName = "id_phrase"))
+//    public Set<Phrase> getPhrases() {
+//        return phrases;
+//    }
+//
+//    public void setPhrases(Set<Phrase> phrases) {
+//        this.phrases = phrases;
+//    }
+
+    public long getIdCar() {
+        return idCar;
+    }
+
+    public void setIdCar(long idCar) {
+        this.idCar = idCar;
     }
 
     public int getPoints() {
@@ -45,14 +84,6 @@ public class Car {
 
     public void setPoints(int points) {
         this.points = points;
-    }
-
-    public String getPhrase() {
-        return phrase;
-    }
-
-    public void setPhrase(String phrase) {
-        this.phrase = phrase;
     }
 
     public String getName() {
