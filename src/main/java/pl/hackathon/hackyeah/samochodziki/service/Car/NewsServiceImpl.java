@@ -28,9 +28,7 @@ public class NewsServiceImpl implements NewsService {
 
         for(Phrase phrase: phrases) {
             String phraseText = phrase.getPhrase();
-         //TODO: get current date
-            int numberOfMentions = newsCrawler.getNumberOfMentionsOfPhrase(phraseText,
-                    11, 24, 2018);
+            int numberOfMentions = newsCrawler.getNumberOfTodayMentionsOfPhrase(phraseText);
             Timestamp timestamp = getCurrentTimestamp();
             News news = new News(numberOfMentions, timestamp, phrase);
             newsRepository.save(news);

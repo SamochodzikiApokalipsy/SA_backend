@@ -3,25 +3,25 @@ package pl.hackathon.hackyeah.samochodziki.crawler;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URLEncoder;
+import java.util.Calendar;
 import java.util.Formatter;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.HashMap;
+import java.util.Map;
 
 public class NewsCrawler {
 
-    public static void main(String[] args) throws Exception {
-        NewsCrawler newsCrawler = new NewsCrawler();
-        int result = newsCrawler.getNumberOfMentionsOfPhrase("mama", 11, 11, 2018);
-        System.out.println(result);
-    }
-
     private final static String API_KEY = "414ea38308fc420eafee43bf6c9fd451";
 
-    public int getNumberOfMentionsOfPhrase(String text, int month, int day, int year) throws Exception {
+    public int getNumberOfTodayMentionsOfPhrase(String text) throws Exception {
 
-        URL url = createURLObject(text, month, day, year);
+        //TODO: move it should be another class instance
+        Map<String, Integer> todayDateParts = getCurrentDate();
+
+        URL url = createURLObject(text, todayDateParts.get("month"), todayDateParts.get("day"), todayDateParts.get("year"));
         HttpURLConnection httpURLConnection = createHttpURLConnection(url);
         String numberOfMentions = retrieveResponseContent(httpURLConnection);
 
@@ -65,5 +65,21 @@ public class NewsCrawler {
         in.close();
 
         return out;
+    }
+
+    //TODO: move to another class
+    private Map<String, Integer> getCurrentDate() {
+        Map<String, Integer> datePart = new HashMap<>();
+
+        Calendar c = Calendar.getInstance();
+        int year = c.get(Calendar.YEAR);
+        int month = c.get(Calendar.MONTH);
+        int day = c.get(Calendar.DAY_OF_MONTH);
+
+        datePart.put("year", year);
+        datePart.put("month", month);
+        datePart.put("day", day);
+
+        return datePart;
     }
 }
