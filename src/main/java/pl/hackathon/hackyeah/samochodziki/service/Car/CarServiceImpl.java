@@ -26,11 +26,16 @@ public class CarServiceImpl implements CarService{
 
     @Override
     public List<Car> findAll() {
+
+        updatePoints();
+
         return carRepository.findAll();
     }
 
     @Override
     public List<Car.CarRelative> getAllRelative() {
+
+        updatePoints();
 
         List<Car.CarRelative> output = new LinkedList<>();
 
@@ -55,6 +60,19 @@ public class CarServiceImpl implements CarService{
 
 
         return output;
+    }
+
+    private void updatePoints() {
+        //send it somehow, so it wont be called twice
+        Iterable<Car> carsIterable = carRepository.findAll();
+
+        for(Car car : carsIterable) {
+            long idCar = car.getIdCar();
+            List<Integer> gatheredPopularity = carRepository.popularityOfRelatedArticles(idCar);
+            int sum = gatheredPopularity.stream().reduce(0, Integer::sum);
+            car.setPoints(sum);
+        }
+
     }
 
     private static double round(double value, int places) {
